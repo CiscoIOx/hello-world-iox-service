@@ -1,0 +1,10 @@
+{
+"name":"custom:service:hello-world",
+"version":"0.9.4",
+"useApplicationClassLoader": true,
+"className": "com.cisco.iox.middleware.HelloWorldService",
+
+"configuration": {
+}
+
+}

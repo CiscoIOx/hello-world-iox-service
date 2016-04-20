@@ -1,0 +1,46 @@
+descriptor-schema-version: "2.0"
+ 
+info:
+  name: Custom Hello World Service
+  description: An example middleware hello world service
+  version: "1.0"
+  author-link: "http://www.cisco.com"
+  author-name: "Cisco Systems"
+
+service-bundle:
+  provides: [{id: "custom:service:hello-world", api-version: 1,version: "1"}]
+ 
+app:
+  type: paas
+  
+  depends-on:
+    services:
+      -
+        min-api-version: 1
+        required: true
+        id: "system:service:nbi"
+        label: nbi
+      -
+        id: "system:core:dsa-broker"
+        min-api-version: 1
+        required: true
+        label: message_broker
+        
+  resources:
+    profile: custom
+    cpu: "20"
+    disk: "50"
+    memory: "100"
+  
+    network:
+     -
+       interface-name: eth0
+
+  # Specify runtime and startup
+  startup:
+    runtime: java-se-embedded-cp3
+    runtime-version: 1.8 
+    runtime-options:
+      classpath: ".:$CAF_APP_PATH/lib/*:$CAF_APP_PATH/resources/:$CAF_APP_PATH/lib/third-party/*"
+      java-options: -Xss256k -Xms32M -Xmx32m  -Djava.util.logging.config.file=$CAF_APP_PATH/resources/logging.properties
+    target: com.cisco.iox.middleware.Server

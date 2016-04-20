@@ -1,0 +1,27 @@
+#%RAML 0.8
+
+title: Hello World Service API
+iox.service: custom:service:hello-world
+baseUri: /api/v1
+securitySchemes: !include security.raml
+securedBy: [basic, token]
+
+version: v1
+/hello:
+  /{userName}:
+    description: Greet hello
+    get:
+      description: Get last emitted data from a given device
+      iox.operation:
+        name: say-greeting
+        parameterAliases:
+          deviceId: userName
+      responses:
+        200:
+          body:
+            application/json:
+            text/json:
+        404:
+         description: Data for given device does not exist
+         iox.errorCodes:
+            - device_data_not_found  
